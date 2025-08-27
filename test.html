@@ -1,0 +1,491 @@
+device--width <!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jadwal Piket Kelas 12</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+      padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.1);
+      transform: rotate(30deg);
+    }
+    
+    .header h1 {
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .paper {
+      background-color: white;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .pin {
+      position: absolute;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 12px;
+      background: linear-gradient(145deg, #c0c0c0, #808080);
+      border-radius: 50%;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      z-index: 2;
+    }
+    
+    .pin:after {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 15px;
+      background: linear-gradient(to bottom, #ff0000, #cc0000);
+      border-radius: 2px 2px 0 0;
+    }
+    
+    .note {
+      background-color: #fff9c4;
+      border-left: 4px solid #ffd600;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+    
+    .table-jadwal {
+      border-collapse: separate;
+      border-spacing: 0;
+      width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .table-jadwal th {
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      color: white;
+      font-weight: 600;
+      text-align: center;
+      padding: 15px;
+    }
+    
+    .table-jadwal td {
+      padding: 12px 15px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    
+    .table-jadwal tr:nth-child(even) {
+      background-color: #f8f9fa;
+    }
+    
+    .btn-tambah {
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 25px;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(106, 17, 203, 0.3);
+      transition: all 0.3s;
+    }
+    
+    .btn-tambah:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(106, 17, 203, 0.4);
+    }
+    
+    .btn-ubah {
+      background-color: #ffc107;
+      color: black;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      font-size: 14px;
+      margin-right: 5px;
+    }
+    
+    .btn-hapus {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      font-size: 14px;
+    }
+    
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      color: #6c757d;
+      font-size: 14px;
+    }
+    
+    .highlight {
+      background-color: #e8f5e9 !important;
+      font-weight: 600;
+    }
+    
+    .hari-ini {
+      display: inline-block;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      color: white;
+      padding: 5px 15px;
+      border-radius: 50px;
+      font-size: 14px;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header text-center">
+      <h1>Jadwal Piket Kelas 12 <span class="hari-ini" id="hari-ini"></span></h1>
+      <p class="lead">Program keahlian Pengembangan Perangkat Lunak dan Gim</p>
+    </div>
+    
+    <div class="paper">
+      <div class="pin"></div>
+      
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>Daftar Jadwal Piket</h3>
+        <button class="btn btn-tambah" id="btnTambah">+ Tambah Jadwal</button>
+      </div>
+      
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered table-jadwal">
+          <thead>
+            <tr>
+              <th scope="col">No</th>
+              <th scope="col">Hari</th>
+              <th scope="col">Nama Siswa</th>
+              <th scope="col">Catatan</th>
+              <th scope="col">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="daftar-piket">
+            <!-- Data jadwal piket akan diisi melalui JavaScript -->
+          </tbody>
+        </table>
+      </div>
+      
+      <p id="jumlah" class="fw-bold mt-3">Jumlah jadwal piket: 0</p>
+      
+      <div class="note">
+        <h5>📌 Catatan Penting:</h5>
+        <ul class="mb-0">
+          <li>Piket dilaksanakan setiap hari sebelum pelajaran dimulai dan setelah pelajaran berakhir</li>
+          <li>Siswa yang tidak hadir harus menginformasikan kepada ketua kelas dan mengatur penggantian jadwal</li>
+          <li>Area yang harus dibersihkan: kelas, koridor, dan area sekitar kelas</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <p>© 2023 Kelas 12 PPGL - SMK Insan Cemerlang</p>
+    </div>
+  </div>
+
+  <!-- Modal untuk Form Tambah dan Edit -->
+  <div class="modal fade" id="modalPiket" tabindex="-1" aria-labelledby="modalPiketLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalPiketLabel">Tambah Jadwal Piket</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formPiket">
+            <input type="hidden" id="inputId">
+            <div class="mb-3">
+              <label for="inputHari" class="form-label">Hari</label>
+              <select class="form-select" id="inputHari" required>
+                <option value="">Pilih Hari</option>
+                <option value="Senin">Senin</option>
+                <option value="Selasa">Selasa</option>
+                <option value="Rabu">Rabu</option>
+                <option value="Kamis">Kamis</option>
+                <option value="Jumat">Jumat</option>
+                <option value="Sabtu">Sabtu</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="inputNama" class="form-label">Nama Siswa</label>
+              <input type="text" class="form-control" id="inputNama" required>
+            </div>
+            <div class="mb-3">
+              <label for="inputCatatan" class="form-label">Catatan (Opsional)</label>
+              <textarea class="form-control" id="inputCatatan" rows="2"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <button type="button" class="btn btn-primary" id="tombolSimpan">Simpan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { 
+      initializeApp 
+    } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js'
+    
+    import {
+      getFirestore,
+      collection,
+      doc,
+      getDocs,
+      getDoc,
+      addDoc,
+      deleteDoc,
+      updateDoc,
+      query,
+      orderBy
+    } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js'
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCfqZD7UZZt-GWmtNhfJyksrv3-8ENRjto",
+      authDomain: "insan-cemerlang-d5574.firebaseapp.com",
+      projectId: "insan-cemerlang-d5574",
+      storageBucket: "insan-cemerlang-d5574.appspot.com",
+      messagingSenderId: "1035937160050",
+      appId: "1:1035937160050:web:6d77d3874c3f78b2811beb",
+      measurementId: "G-EVVQ80Q08C"
+    };
+
+    // Inisialisasi firebase
+    const aplikasi = initializeApp(firebaseConfig)
+    const basisdata = getFirestore(aplikasi)
+    
+    // Fungsi untuk menampilkan hari ini
+    function tampilkanHariIni() {
+      const hari = new Date().getDay();
+      const namaHari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+      document.getElementById('hari-ini').textContent = namaHari[hari];
+    }
+    
+    // Fungsi untuk menambahkan jadwal piket
+    export async function tambahPiket(hari, nama, catatan) {
+      try {
+        const refDokumen = await addDoc(collection(basisdata, "piket"), {
+          hari: hari,
+          nama: nama,
+          catatan: catatan || ""
+        })
+        console.log("Berhasil menyimpan jadwal piket")
+        return true
+      } catch (e) {
+        console.log("Gagal menyimpan jadwal piket: " + e)
+        return false
+      }
+    }
+    
+    // Fungsi untuk menghapus jadwal piket
+    export async function hapusPiket(id) {
+      try {
+        await deleteDoc(doc(basisdata, "piket", id))
+        console.log("Berhasil menghapus jadwal piket")
+        return true
+      } catch (e) {
+        console.log("Gagal menghapus jadwal piket: " + e)
+        return false
+      }
+    }
+    
+    // Fungsi untuk mengambil daftar piket
+    export async function ambilDaftarPiket() {
+      try {
+        const refDokumen = collection(basisdata, "piket");
+        const kueri = query(refDokumen, orderBy("hari"));
+        const cuplikanKueri = await getDocs(kueri);
+
+        let hasilKueri = [];
+        cuplikanKueri.forEach((dokumen) => {
+          hasilKueri.push({
+            id: dokumen.id,
+            hari: dokumen.data().hari,
+            nama: dokumen.data().nama,
+            catatan: dokumen.data().catatan
+          })
+        })
+
+        return hasilKueri;
+      } catch (e) {
+        console.log("Gagal mengambil data piket: " + e)
+        return []
+      }
+    }
+    
+    // Fungsi untuk mengubah jadwal piket
+    export async function ubahPiket(id, hari, nama, catatan) {
+      try {
+        await updateDoc(
+          doc(basisdata, "piket", id),
+          {
+            hari: hari,
+            nama: nama,
+            catatan: catatan || ""
+          })
+        console.log("Berhasil mengubah jadwal piket")
+        return true
+      } catch (e) {
+        console.log("Gagal mengubah jadwal piket: " + e)
+        return false
+      }
+    }
+    
+    // Fungsi untuk mengambil data piket berdasarkan ID
+    export async function ambilPiket(id) {
+      try {
+        const refDokumen = await doc(basisdata, "piket", id)
+        const snapshotDocumen = await getDoc(refDokumen)
+        return snapshotDocumen.data()
+      } catch (e) {
+        console.log("Gagal mengambil data piket: " + e)
+        return null
+      }
+    }
+    
+    // Inisialisasi halaman
+    $(document).ready(async function() {
+      tampilkanHariIni();
+      await renderDaftarPiket();
+      
+      // Event listener untuk tombol tambah
+      $("#btnTambah").click(function() {
+        $("#modalPiketLabel").text("Tambah Jadwal Piket");
+        $("#formPiket")[0].reset();
+        $("#inputId").val("");
+        $("#modalPiket").modal('show');
+      });
+      
+      // Event listener untuk tombol simpan di modal
+      $("#tombolSimpan").click(async function() {
+        const id = $("#inputId").val();
+        const hari = $("#inputHari").val();
+        const nama = $("#inputNama").val();
+        const catatan = $("#inputCatatan").val();
+        
+        if (!hari || !nama) {
+          alert("Hari dan Nama Siswa harus diisi!");
+          return;
+        }
+        
+        let success = false;
+        
+        if (id) {
+          // Edit mode
+          success = await ubahPiket(id, hari, nama, catatan);
+        } else {
+          // Add mode
+          success = await tambahPiket(hari, nama, catatan);
+        }
+        
+        if (success) {
+          $("#modalPiket").modal('hide');
+          await renderDaftarPiket();
+        } else {
+          alert("Terjadi kesalahan saat menyimpan data.");
+        }
+      });
+      
+      // Event delegation untuk tombol hapus dan ubah
+      $(document).on('click', '.btn-hapus', async function() {
+        const id = $(this).data('id');
+        if (confirm("Apakah Anda yakin ingin menghapus jadwal piket ini?")) {
+          const success = await hapusPiket(id);
+          if (success) {
+            await renderDaftarPiket();
+          }
+        }
+      });
+      
+      $(document).on('click', '.btn-ubah', async function() {
+        const id = $(this).data('id');
+        const piket = await ambilPiket(id);
+        
+        if (piket) {
+          $("#modalPiketLabel").text("Ubah Jadwal Piket");
+          $("#inputId").val(id);
+          $("#inputHari").val(piket.hari);
+          $("#inputNama").val(piket.nama);
+          $("#inputCatatan").val(piket.catatan || "");
+          $("#modalPiket").modal('show');
+        }
+      });
+    });
+    
+    // Fungsi untuk merender daftar piket
+    async function renderDaftarPiket() {
+      const daftarPiket = await ambilDaftarPiket();
+      const elemenDaftarPiket = $("#daftar-piket");
+      elemenDaftarPiket.empty();
+      
+      const hariIni = new Date().toLocaleDateString('id-ID', { weekday: 'long' });
+      
+      if (daftarPiket.length === 0) {
+        elemenDaftarPiket.append(
+          '<tr><td colspan="5" class="text-center">Tidak ada jadwal piket</td></tr>'
+        );
+      } else {
+        daftarPiket.forEach((data, index) => {
+          const isHariIni = data.hari === hariIni;
+          const rowClass = isHariIni ? 'highlight' : '';
+          
+          elemenDaftarPiket.append(
+            `<tr class="${rowClass}">
+              <td>${index + 1}</td>
+              <td>${data.hari} ${isHariIni ? '⭐' : ''}</td>
+              <td>${data.nama}</td>
+              <td>${data.catatan || '-'}</td>
+              <td>
+                <button class="btn-ubah btn-warning btn-sm" data-id="${data.id}">Ubah</button>
+                <button class="btn-hapus btn-danger btn-sm" data-id="${data.id}">Hapus</button>
+              </td>
+            </tr>`
+          );
+        });
+      }
+      
+      $("#jumlah").text(`Jumlah jadwal piket: ${daftarPiket.length}`);
+    }
+  </script>
+</body>
+</html>

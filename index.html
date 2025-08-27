@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jadwal Piket Kelas 12</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  
+<body>
+  <div class="container">
+    <div class="header text-center">
+      <h1>Jadwal Piket Kelas 12 <span class="hari-ini" id="hari-ini"></span></h1>
+      <p class="lead">Program keahlian Pengembangan Perangkat Lunak dan Gim</p>
+    </div>
+    
+    <div class="paper">
+      <div class="pin"></div>
+      
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>Daftar Jadwal Piket</h3>
+          
+      </div>
+      
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered table-jadwal">
+          <thead>
+            <tr>
+              <th scope="col">No</th>
+              <th scope="col">Hari</th>
+              <th scope="col">Nama Siswa</th>
+              <th scope="col">Catatan</th>
+              <th scope="col">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="daftar-piket">
+            <!-- Data jadwal piket akan diisi melalui JavaScript -->
+          </tbody>
+        </table>
+      </div>
+      
+      
+      <p id="jumlah" class="fw-bold mt-3">Jumlah jadwal piket: 0</p>
+      
+      <div class="note">
+        <h5>📌 Catatan Penting:</h5>
+        <ul class="mb-0">
+          <li>Piket dilaksanakan setiap hari sebelum pelajaran dimulai dan setelah pelajaran berakhir</li>
+          <li>Siswa yang tidak hadir harus menginformasikan kepada ketua kelas dan mengatur penggantian jadwal</li>
+          <li>Area yang harus dibersihkan: kelas, koridor, dan area sekitar kelas</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <p>© 2023 Kelas 12 PPGL - SMK Insan Cemerlang</p>
+    </div>
+  </div>
+  <a href="formtambah.html"> tambah jadwal</a>
